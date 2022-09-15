@@ -78,17 +78,8 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
     disable-swagger-default-url: on
-tencent:
-  cloud:
-    appId: 1313735392
-    secretId: AKIDBCxRfcIhqiJdhU0FDuKTLxIM9gwuc3E8
-    secretKey: e06vTklV0FDvMVNzJM8etrYy81dy3rNc
-    region: ap-guangzhou
-    bucket: emos-1313735392
-  trtc:
-    appId: 1400733817
-    secretKey: 2ab396a745d4b9baa4328240c2909e7514b73687eb230d2a7006715373d3c78c
-    expire: 86400
+
+  
 wx:
   app-id: wxefde3a9a8cd31ccf
   app-secret: 2e57a2fc4d973f2e8f29bf404f220741
