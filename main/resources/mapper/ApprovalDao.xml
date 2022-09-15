@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.emos.api.db.dao.ApprovalDao">
+<select id="searchApprovalByPage" parameterType="HashMap" resultType="HashMap">
+    SELECT (select name from tb_user where id = creator_id)AS creatorName,type,DATE_FORMAT(create_time,'%Y-%m-%d')as createDate,`desc`,title,id,`status` FROM tb_meeting where `status` = 1
+    <if test="creatorName!=null">
+        AND (select name from tb_user where id = creator_id)= #{creatorName}
+    </if>
+    <if test="type!=null">
+        AND type = #{type}
+    </if>
+    limit #{start},#{length}
+</select>
+    <select id="searchByCount" parameterType="HashMap" resultType="long">
+        SELECT count(*) FROM tb_meeting where #{status} = 1
+        <if test="creatorName!=null">
+            AND (select name from tb_user where id = creator_id)=#{creatorName}
+        </if>
+        <if test="type!=null">
+            AND type = #{type}
+        </if>
+    </select>
+    <select id="searchApprovalContent" parameterType="HashMap" resultType="HashMap">
+        select CONCAT(GROUP_CONCAT(u.name))as members,
+               concat(date_format(date,'%Y-%m-%d'),"  ",DATE_FORMAT(`start`,'%H:%i'),"~",DATE_FORMAT(END,'%H:%i'))
+               AS date,`desc`,place from tb_meeting m LEFT JOIN tb_user u ON JSON_CONTAINS(m.members,CONVERT (u.id,CHAR))
+        where m.id = #{id}
+    </select>
+    <update id="updateStatus" parameterType="HashMap">
+        update tb_meeting
+        set status = #{approval}
+        where id = #{id}
+    </update>
+    <select id="searchApprovalByPage1" parameterType="HashMap" resultType="HashMap">
+        SELECT (select name from tb_user where id = creator_id)AS creatorName,type,DATE_FORMAT(create_time,'%Y-%m-%d')as createDate,`desc`,title,id,`status` FROM tb_meeting where `status` = 2 or 3
+        <if test="creatorName!=null">
+            AND (select name from tb_user where id = creator_id)= #{creatorName}
+        </if>
+        <if test="type!=null">
+            AND type = #{type}
+        </if>
+        limit #{start},#{length}
+    </select>
+
+</mapper>
